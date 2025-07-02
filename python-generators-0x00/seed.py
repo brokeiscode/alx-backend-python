@@ -90,5 +90,7 @@ def insert_data(connection, data):
             next(reader)  # skip header
             for row in reader:
                 cursor.execute(insert_query, (row[0], row[1], row[2]))
+            connection.commit()
+        cursor.close()
     except Error as e:
         print(f"Error while Inserting data: {e}")
