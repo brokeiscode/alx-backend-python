@@ -7,7 +7,7 @@ def stream_users_in_batches(batch_size):
         connection = seed.connect_to_prodev()
         if connection:
             cursor = connection.cursor(dictionary=True)
-            cursor.execute('select * from user_data')
+            cursor.execute('SELECT * FROM user_data')
             while True:
                 rows = cursor.fetchmany(batch_size)
                 if not rows:
@@ -15,6 +15,7 @@ def stream_users_in_batches(batch_size):
                 yield rows
             cursor.close()
             connection.close()
+            return rows
     except Error as e:
         print(f"Error streaming data from MySQL: {e}")
 
