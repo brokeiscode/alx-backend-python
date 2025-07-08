@@ -9,6 +9,10 @@ query_cache = {}
 def with_db_connection(func):
     @functools.wraps(func)
     def wrapper_with_db_connection(*args, **kwargs):
+        global query_cache
+        cache_key = kwargs['query']
+        if cache_key in query_cache:  # Check cache before database connection
+            return query_cache[cache_key]
         try:
             conn = sqlite3.connect('users.db')
             mutable_args = list(args)
