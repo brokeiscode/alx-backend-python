@@ -8,11 +8,10 @@ def log_queries(func):
     # log the query before executing
     @functools.wraps(func)
     def wrapper_log_queries(*args, **kwargs):
-        with open('log.txt', 'a') as logfile:
-            for arg in args:
-                logfile.write(arg + "\n")
-            for key, value in kwargs.items():
-                logfile.write(value + "\n")
+        for arg in args:
+            print(arg + "\n")
+        for key, value in kwargs.items():
+            print(key + ': ' + value + "\n")
         return func(*args, **kwargs)
     return wrapper_log_queries
 
