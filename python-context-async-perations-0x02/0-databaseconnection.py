@@ -18,8 +18,10 @@ class DatabaseConnection:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type and exc_tb:
             print("Error Occurred:\n", exc_val)
+            self.conn.close()
         else:
-            pass
+            self.conn.commit()
+            self.conn.close()
         return True
 
 
