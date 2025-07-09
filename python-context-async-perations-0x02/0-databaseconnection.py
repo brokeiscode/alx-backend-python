@@ -13,7 +13,6 @@ class DatabaseConnection:
             return self.conn.cursor()
         except sqlite3.Error as e:
             print(f"Error connecting to the db: {e}")
-            raise
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type and exc_tb:
