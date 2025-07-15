@@ -33,10 +33,41 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with(expected_url)
 
     def test_public_repos_url(self):
-        expected_payload = {"https://api.github.com/orgs/a_repo"}
+        """
+        method to unit-test GithubOrgClient._public_repos_url.
+        :return:
+        """
+        expected_url = "https://api.github.com/orgs/a_repo"
         with patch.object(
                 GithubOrgClient, "org", new_callable=PropertyMock
         ) as mock_org:
-            mock_org.return_value = {"repos_url": expected_payload}
-            github = GithubOrgClient("abc")
-            self.assertEqual(github._public_repos_url, expected_payload)
+            mock_org.return_value = {"repos_url": expected_url}
+            github = GithubOrgClient("a_repo")
+            self.assertEqual(github._public_repos_url, expected_url)
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json):
+        """
+        Method to unit-test GithubOrgClient.public_repos
+        :param mock_get_json: patch of get_json() method
+        :return:
+        """
+        expected_payload = [
+            {"name": "alx_backend_python", "license": {"key": "MIT"}},
+            {"name": "alx_travel_app"},
+            {"name": "alx_airbnb_database", "license": {"key": "ISC"}}
+        ]
+        mock_get_json.return_value = expected_payload
+        with patch.object(
+                GithubOrgClient, "_public_repos_url", new_callable=PropertyMock
+        ) as mock_public_repos_url:
+            expected_url = "https://api.github.com/orgs/alx"
+            mock_public_repos_url.return_value = expected_url
+            github = GithubOrgClient('alx')
+            result = github.public_repos()
+            self.assertEqual(
+                result,
+                ["alx_backend_python", "alx_travel_app", "alx_airbnb_database"]
+            )
+            mock_public_repos_url.assert_called_once()
+            mock_get_json.assert_called_once()
