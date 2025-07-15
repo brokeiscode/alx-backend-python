@@ -139,11 +139,22 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.get_patcher.stop()
 
     def test_public_repos(self):
+        """
+        method to test GithubOrgClient.public_repos.
+        :return:
+        """
         github = GithubOrgClient('google')
-        result1 = github.public_repos()
-        result2 = github.public_repos(license="apache-2.0")
-        self.assertEqual(result1, self.expected_repos)
-        self.assertEqual(result2, self.apache2_repos)
+        result = github.public_repos()
+        self.assertEqual(result, self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """
+        method to test GithubOrgClient.public_repos with license
+        :return:
+        """
+        github = GithubOrgClient('google')
+        result = github.public_repos(license="apache-2.0")
+        self.assertEqual(result, self.apache2_repos)
 
 
 if __name__ == "__main__":
