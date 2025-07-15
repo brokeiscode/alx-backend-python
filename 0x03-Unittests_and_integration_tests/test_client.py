@@ -137,3 +137,14 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """
 
         cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        github = GithubOrgClient('google')
+        result1 = github.public_repos()
+        result2 = github.public_repos(license="apache-2.0")
+        self.assertEqual(result1, self.expected_repos)
+        self.assertEqual(result2, self.apache2_repos)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
