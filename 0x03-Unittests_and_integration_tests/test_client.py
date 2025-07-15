@@ -112,7 +112,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Use patch to start a patcher named get_patcher
         """
 
-        cls.get_patcher = patch('request.get')
+        cls.get_patcher = patch('requests.get')
         cls.mock_get = cls.get_patcher.start()
 
         def side_effect(url):
