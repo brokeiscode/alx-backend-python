@@ -6,9 +6,11 @@ import unittest
 
 from client import GithubOrgClient
 
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, Mock
 
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
+
+from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -37,12 +39,12 @@ class TestGithubOrgClient(unittest.TestCase):
         method to unit-test GithubOrgClient._public_repos_url.
         :return:
         """
-        expected_url = "https://api.github.com/orgs/a_repo"
+        expected_url = "https://api.github.com/orgs/alx/repos"
         with patch.object(
                 GithubOrgClient, "org", new_callable=PropertyMock
         ) as mock_org:
             mock_org.return_value = {"repos_url": expected_url}
-            github = GithubOrgClient("a_repo")
+            github = GithubOrgClient("alx")
             self.assertEqual(github._public_repos_url, expected_url)
 
     @patch('client.get_json')
@@ -61,7 +63,7 @@ class TestGithubOrgClient(unittest.TestCase):
         with patch.object(
                 GithubOrgClient, "_public_repos_url", new_callable=PropertyMock
         ) as mock_public_repos_url:
-            expected_url = "https://api.github.com/orgs/alx"
+            expected_url = "https://api.github.com/orgs/alx/repos"
             mock_public_repos_url.return_value = expected_url
             github = GithubOrgClient('alx')
             result = github.public_repos()
@@ -87,3 +89,51 @@ class TestGithubOrgClient(unittest.TestCase):
         github = GithubOrgClient('alx')
         result = github.has_license(repo, license_key)
         self.assertEqual(result, expected)
+
+
+@parameterized_class([
+    {
+        "org_payload": payload[0],
+        "repos_payload": payload[1],
+        "expected_repos": payload[2],
+        "apache2_repos": payload[3]
+    } for payload in TEST_PAYLOAD
+])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """
+    Integration tests for GithubOrgClient.public_repos.
+    Mocks external HTTP requests.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Sets up the class by mocking requests.get.
+        Use patch to start a patcher named get_patcher
+        """
+
+        cls.get_patcher = patch('request.get')
+        cls.mock_get = cls.get_patcher.start()
+
+        def side_effect(url):
+            """
+            Function will return different Mock objects based on the URL
+            :param url:
+            :return:
+            """
+            mock_response = Mock()
+            if url == cls.org_payload["repos_url"]:
+                mock_response.json.return_value = cls.repos_payload
+            else:
+                mock_response.json.return_value = cls.org_payload
+            return mock_response
+
+        cls.mock_get.side_effect = side_effect
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Stops the patcher after all tests in the class have run.
+        """
+
+        cls.get_patcher.stop()
