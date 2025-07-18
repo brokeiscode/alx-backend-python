@@ -12,6 +12,7 @@ class User(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     is_online = models.BooleanField(default=False)
     updated_at = models.DateField(auto_now=True)
+    password = models.CharField(max_length=128) # explicitly asked to define.
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -30,7 +31,7 @@ class Conversation(models.Model):
     conversation_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='conversations')
-    started_at = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
 
     def __str__(self):
@@ -46,7 +47,8 @@ class Message(models.Model):
     message_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
-    timestamp = models.DateField(auto_now_add=True)
+    message_body = models.TextField()
+    sent_at = models.DateField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
