@@ -38,7 +38,7 @@ class Conversation(models.Model):
         return self.name if self.name else f"{self.participants} Chat"
 
     class Meta:
-        ordering = ['-started_at']
+        ordering = ['-created_at']
         verbose_name = 'Chat Conversation'
         db_table = 'conversations'
 
@@ -55,6 +55,6 @@ class Message(models.Model):
         return f"Message from {self.sender.username} in {self.conversation}"
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-sent_at']
         verbose_name = 'Chat Message'
         db_table = 'messages'
