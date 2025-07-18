@@ -29,7 +29,7 @@ class User(AbstractUser):
 
 class Conversation(models.Model):
     conversation_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
-    name = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='conversations')
     created_at = models.DateField(auto_now_add=True)
 

@@ -21,6 +21,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 
 class ConversationSerializer(serializers.HyperlinkedModelSerializer):
     participants = UserSerializer(many=True, read_only=True)
+    name = serializers.CharField(max_length=100, required=False, allow_blank=True)
     messages = serializers.SerializerMethodField()
 
     class Meta:
@@ -31,3 +32,12 @@ class ConversationSerializer(serializers.HyperlinkedModelSerializer):
     def get_messages(self, obj):
         messages = obj.messages.order_by('sent_at')
         return MessageSerializer(messages, many=True).data
+
+    def validate_participants(self, value):
+        """
+        Validates that the 'participants' field contains exactly two participants.
+        """
+        if len(value) != 2:
+            raise serializers.ValidationError("A conversation must have exactly two participants.")
+        return value
+
