@@ -1,3 +1,58 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+import uuid
+from django.utils import timezone
+from django.conf import settings
 
-# Create your models here.
+
+class User(AbstractUser):
+    user_id = models.UUIDField(default=uuid.uuid4(), editable=False, primary_key=True)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    is_online = models.BooleanField(default=False)
+    updated_at = models.DateField(auto_now=True)
+
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email", "first_name", "last_name"]
+
+    def __str__(self):
+        return f"{self.get_full_name()} - {self.email}"
+
+    class Meta:
+        ordering = ['username']
+        verbose_name = 'Chat user'
+        db_table = 'users'
+
+
+class Conversation(models.Model):
+    conversation_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='conversations')
+    started_at = models.DateField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.name if self.name else f"{self.participants} Chat"
+
+    class Meta:
+        ordering = ['-started_at']
+        verbose_name = 'Chat Conversation'
+        db_table = 'conversations'
+
+
+class Message(models.Model):
+    message_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, editable=False)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
+    timestamp = models.DateField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Message from {self.sender.username} in {self.conversation}"
+
+    class Meta:
+        ordering = ['-timestamp']
+        verbose_name = 'Chat Message'
+        db_table = 'messages'
