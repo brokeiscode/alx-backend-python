@@ -1,4 +1,6 @@
-from rest_framework import viewsets, filters, permissions
+from rest_framework import viewsets, status, filters, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
 from django.contrib.auth import get_user_model
@@ -17,6 +19,13 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'first_name', 'last_name']
+
+    @action(detail=False, methods=['patch'])
+    def update_online_status(self, request):
+        is_online = request.data.get('is_online', False)
+        request.user.is_online = is_online
+        request.user.save()
+        return Response({'status': status.HTTP_202_ACCEPTED})
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
