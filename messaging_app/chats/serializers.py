@@ -7,6 +7,7 @@ User = get_user_model() # Get the currently active user model
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    username = serializers.CharField()
 
     class Meta:
         model = User
