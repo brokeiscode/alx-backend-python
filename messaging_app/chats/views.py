@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
 from .permissions import IsSelf, IsParticipantOfConversation, IsMessageOwnerOrIsParticipantOfConversation
@@ -83,9 +84,16 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.none()
 
     def perform_create(self, serializer):
-        # Automatically set the sender to the current authenticated user
-        conversation = serializer.validated_data['conversation']
-        if self.request.user not in conversation.participants.all():
-            raise serializer.ValidationError("You are not a participant of this conversation.")
-        serializer.save(sender=self.request.user)
+        user = self.request.user
+        conversation_id = self.request.data.get('conversation')
 
+        if not conversation_id:
+            raise serializer.ValidationError({"conversation": "This field is required."})
+
+        # Retrieve the conversation, ensuring the user is a participant
+        # This will raise a 404 if the conversation doesn't exist or user is not a participant
+        conversation = get_object_or_404(
+            Conversation.objects.filter(participants=user),
+            pk=conversation_id
+        )
+        serializer.save(sender=user, conversation=conversation)

@@ -40,9 +40,21 @@ class IsMessageOwnerOrIsParticipantOfConversation(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        # Check if the user is the sender of the message
-        if obj.sender == request.user:
+        # Define explicit write methods
+        write_methods = ["PUT", "PATCH", "DELETE"]
+
+        # Check if the user is a participant of the message's conversation first
+        if request.user not in obj.conversation.participants.all():
+            return False
+
+        # If it's a read operation (GET, HEAD, OPTIONS), and the user is a participant, allow.
+        if request.method in permissions.SAFE_METHODS:
             return True
 
-        # Check if the user is a participant of the message's conversation
-        return request.user in obj.conversation.participants.all()
+        # For write operations (PUT, PATCH, DELETE),
+        # only allow if the request method is one of the explicit write methods
+        # AND the user is the original sender of the message.
+        if request.method in write_methods:
+            return obj.sender == request.user
+
+        return False
