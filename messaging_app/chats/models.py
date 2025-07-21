@@ -24,17 +24,6 @@ class User(AbstractUser):
         verbose_name = 'Chat user'
         db_table = 'users'
 
-    def update_is_online_status(self, status: bool):
-        """
-        Updates the is_online and last_seen status.
-        """
-        self.is_online = status
-        if status:
-            self.last_seen = timezone.now()
-        else:
-            pass
-        self.save(update_fields=['is_online', 'last_seen'])
-
     def __str__(self):
         return f"{self.get_full_name()} - {self.email}"
 

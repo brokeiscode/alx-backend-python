@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
 from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 User = get_user_model() # Get the currently active user model
@@ -16,16 +17,24 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'first_name', 'last_name']
 
-    @action(detail=False, methods=['patch'])
-    def update_online_status(self, request):
-        is_online = request.data.get('is_online', False)
-        request.user.is_online = is_online
-        request.user.save()
-        return Response({'status': status.HTTP_202_ACCEPTED})
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        """
+        Returns details of the currently authenticated user.
+        """
+        user_id = request.user.user_id
+        try:
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UserSerializer(user, context={'request': request})
+        return Response(serializer.data)
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -34,6 +43,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
     """
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['participants__username', 'participants__first_name','participants__last_name']
@@ -53,6 +63,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     """
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     # lookup_field = 'message_id'
     filter_backends = [filters.SearchFilter]
