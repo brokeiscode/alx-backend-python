@@ -15,7 +15,7 @@ class IsSelf(permissions.BasePermission):
         # Allow full access if the user is the owner of the object (i.e., editing their own profile)
         return obj == request.user
 
-class IsConversationParticipant(permissions.BasePermission):
+class IsParticipantOfConversation(permissions.BasePermission):
     """
     Custom permission to only allow participants of a conversation to view/access it.
     Also restricts list view to only show conversations the user is a part of.
@@ -29,7 +29,7 @@ class IsConversationParticipant(permissions.BasePermission):
         # Check if the user is a participant of the conversation object.
         return request.user in obj.participants.all()
 
-class IsMessageOwnerOrConversationParticipant(permissions.BasePermission):
+class IsMessageOwnerOrIsParticipantOfConversation(permissions.BasePermission):
     """
     Custom permission to only allow the message sender OR a conversation participant
     to view/access a message.

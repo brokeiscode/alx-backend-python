@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
-from .permissions import IsSelf, IsConversationParticipant, IsMessageOwnerOrConversationParticipant
+from .permissions import IsSelf, IsParticipantOfConversation, IsMessageOwnerOrIsParticipantOfConversation
 
 
 User = get_user_model() # Get the currently active user model
@@ -46,7 +46,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [permissions.IsAuthenticated, IsConversationParticipant]
+    permission_classes = [permissions.IsAuthenticated, IsParticipantOfConversation]
     filter_backends = [filters.SearchFilter]
     search_fields = ['participants__username', 'participants__first_name','participants__last_name']
 
@@ -69,7 +69,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [permissions.IsAuthenticated, IsMessageOwnerOrConversationParticipant]
+    permission_classes = [permissions.IsAuthenticated, IsMessageOwnerOrIsParticipantOfConversation]
     # lookup_field = 'message_id'
     filter_backends = [filters.SearchFilter]
     search_fields = ['message_body']
