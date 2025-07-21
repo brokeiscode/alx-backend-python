@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
 from .permissions import IsSelf, IsParticipantOfConversation, IsMessageOwnerOrIsParticipantOfConversation
@@ -90,10 +89,20 @@ class MessageViewSet(viewsets.ModelViewSet):
         if not conversation_id:
             raise serializer.ValidationError({"conversation": "This field is required."})
 
-        # Retrieve the conversation, ensuring the user is a participant
-        # This will raise a 404 if the conversation doesn't exist or user is not a participant
-        conversation = get_object_or_404(
-            Conversation.objects.filter(participants=user),
-            pk=conversation_id
-        )
+        # Explicitly try to retrieve the conversation and check participation
+        try:
+            # Attempt to get the conversation by ID
+            conversation = Conversation.objects.get(pk=conversation_id)
+        except Conversation.DoesNotExist:
+            # If conversation does not exist, raising ValidationError results in HTTP 400 Bad Request
+            return Response({"conversation": "The specified conversation..."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Explicitly check if the user is a participant
+        if user not in conversation.participants.all():
+            # If the user is not a participant, raising PermissionDenied results in HTTP 403 Forbidden
+            return Response({"detail": "You are not a participant..."}, status=status.HTTP_403_FORBIDDEN)
+
+        # If all checks pass, save the message
         serializer.save(sender=user, conversation=conversation)
+
+        return None
