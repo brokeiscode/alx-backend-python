@@ -13,8 +13,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = [
             'url', 'user_id', 'email', 'first_name', 'last_name',
-            'username', 'bio', 'is_online', 'last_seen']
-        read_only_fields = ['user_id', 'is_online', 'last_seen', 'username', 'email']
+            'username', 'bio', 'is_online', 'last_login']
+        read_only_fields = ['user_id', 'is_online', 'last_login', 'username', 'email']
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class ConversationSerializer(serializers.HyperlinkedModelSerializer):
         model = Conversation
         fields = ['url', 'conversation_id', 'name', 'messages', 'created_at', 'target_user_id',
                   'display_participants']
-        read_only_fields = ['url', 'conversation_id', 'created_at']
+        read_only_fields = ['url', 'conversation_id', 'target_user_id', 'created_at']
 
     def get_messages(self, obj):
         messages = obj.messages.all().order_by('sent_at')
