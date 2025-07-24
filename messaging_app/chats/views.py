@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, filters, permissions
+from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -7,6 +7,10 @@ from django.db.models import Q
 from .models import Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
 from .permissions import IsSelf, IsParticipantOfConversation, IsMessageOwnerOrIsParticipantOfConversation
+from .pagination import MessagePagination
+from django_filters import rest_framework as filters
+from rest_framework import filters as rest_filters
+from .filters import MessageFilter
 
 
 User = get_user_model() # Get the currently active user model
@@ -21,7 +25,8 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsSelf]
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.DjangoFilterBackend, rest_filters.SearchFilter]
+    filterset_fields = ['username', 'first_name', 'last_name']
     search_fields = ['username', 'first_name', 'last_name']
 
     @action(detail=False, methods=['get'])
@@ -47,8 +52,9 @@ class ConversationViewSet(viewsets.ModelViewSet):
     serializer_class = ConversationSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsParticipantOfConversation]
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['participants__username', 'participants__first_name','participants__last_name']
+    filter_backends = [filters.DjangoFilterBackend, rest_filters.SearchFilter]
+    filterset_fields = ['participants__username', 'participants__first_name','participants__last_name']
+    search_fields = ['participants__username', 'participants__first_name', 'participants__last_name']
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -68,10 +74,13 @@ class MessageViewSet(viewsets.ModelViewSet):
     """
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    pagination_class = MessagePagination
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsMessageOwnerOrIsParticipantOfConversation]
     # lookup_field = 'message_id'
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.DjangoFilterBackend, rest_filters.SearchFilter]
+    filterset_fields = ['message_body']
+    filterset_class = MessageFilter
     search_fields = ['message_body']
 
     def get_queryset(self):
