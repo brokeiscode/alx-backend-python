@@ -6,13 +6,13 @@ from django.db.models import Count
 User = get_user_model() # Get the currently active user model
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
 
     class Meta:
         model = User
         fields = [
-            'url', 'user_id', 'email', 'first_name', 'last_name',
+            'user_id', 'email', 'first_name', 'last_name',
             'username', 'bio', 'is_online', 'last_login']
         read_only_fields = ['user_id', 'is_online', 'last_login', 'username', 'email']
 
@@ -28,14 +28,14 @@ class MessageSerializer(serializers.ModelSerializer):
         read_only_fields = ['message_id', 'sender', 'sent_at', 'is_read']
 
 
-class ConversationSerializer(serializers.HyperlinkedModelSerializer):
+class ConversationSerializer(serializers.ModelSerializer):
     target_user_id = serializers.UUIDField(write_only=True, required=True)
     display_participants = UserSerializer(source='participants', many=True, read_only=True)
     messages = serializers.SerializerMethodField()
 
     class Meta:
         model = Conversation
-        fields = ['url', 'conversation_id', 'name', 'messages', 'created_at', 'target_user_id',
+        fields = ['conversation_id', 'name', 'messages', 'created_at', 'target_user_id',
                   'display_participants']
         read_only_fields = ['url', 'conversation_id', 'target_user_id', 'created_at']
 
