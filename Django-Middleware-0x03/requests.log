@@ -1,0 +1,21 @@
+2025-07-25 12:04:36.394557 - User: Anonymous - Path: /api/token/
+2025-07-25 12:05:21.995289 - User: Anonymous - Path: /api/token/refresh/
+2025-07-25 12:05:57.052069 - User: Anonymous - Path: /api/users/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:09:16.936083 - User: Black Body - blackthebody@outlook.com - Path: /api/users/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:09:53.981208 - User: Anonymous - Path: /api/users/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:11:14.175728 - User: Black Body - blackthebody@outlook.com - Path: /api/users/
+2025-07-25 12:11:16.846807 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e
+2025-07-25 12:11:16.855892 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:11:48.263507 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e
+2025-07-25 12:11:48.282653 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:12:40.638954 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e
+2025-07-25 12:12:40.647286 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:13:25.809043 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:13:39.105105 - User: Black Body - blackthebody@outlook.com - Path: /api/users/
+2025-07-25 12:13:41.416587 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
