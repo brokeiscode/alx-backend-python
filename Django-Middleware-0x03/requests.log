@@ -19,3 +19,28 @@
 2025-07-25 12:13:25.809043 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
 2025-07-25 12:13:39.105105 - User: Black Body - blackthebody@outlook.com - Path: /api/users/
 2025-07-25 12:13:41.416587 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:42:55.689906 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:43:08.880653 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:43:46.299625 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/messaging_app/settings.py changed, reloading.
+2025-07-25 12:45:31.911166 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:46:25.511872 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Forbidden: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:47:46.827562 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:48:22.116949 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:49:30.462722 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:50:11.861663 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:51:10.346675 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Unauthorized: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:51:40.987473 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Unauthorized: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 12:51:52.630230 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 12:52:28.230686 - User: Black Body - blackthebody@outlook.com - Path: /api/users/
