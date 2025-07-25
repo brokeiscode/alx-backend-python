@@ -3,6 +3,7 @@ import logging
 from django.http import HttpResponseForbidden, JsonResponse
 from django.core.cache import cache
 
+
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -11,7 +12,7 @@ class RequestLoggingMiddleware:
     def __call__(self, request):
 
         response = self.get_response(request)
-        # To get authenticated user, logging is after view called.
+        # To get authenticated user, logging is after view is called because of simple-jwt.
         user = request.user if request.user.is_authenticated else 'Anonymous'
         message = f"{datetime.now()} - User: {user} - Path: {request.path}"
         logging.info(message)
@@ -68,3 +69,22 @@ class OffensiveLanguageMiddleware:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+
+
+class RolepermissionMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.path.startswith('/api/conversations/'):
+            user = request.user
+            if user.is_authenticated:
+                role = hasattr(user, 'role')
+                if role not in ['admin', 'moderator']:
+                    return HttpResponseForbidden("Access denied: Admin permission required.")
+                else:
+                    return JsonResponse({"error": "Unauthorized request."}, status=401)
+
+        response = self.get_response(request)
+
+        return  response

@@ -121,3 +121,62 @@ Unauthorized: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
 2025-07-25 14:25:42.123262 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
 /Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
 /Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 14:45:18.956346 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 14:50:30.713740 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 14:52:44.921103 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 14:53:20.568327 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 14:54:12.616831 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 15:06:36.030440 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Internal Server Error: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Traceback (most recent call last):
+  File "/Users/blackbody/PycharmProjects/alx-backend-python/messaging_app/.venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py", line 83, in __call__
+    role = getattr(user, 'role')
+AttributeError: 'User' object has no attribute 'role'
+2025-07-25 15:14:30.209780 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:15:54.039560 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Forbidden: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:17:27.340530 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Forbidden: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:17:58.170491 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Forbidden: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:19:36.678655 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Bad Request: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:20:01.433207 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Method Not Allowed: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+Internal Server Error: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Traceback (most recent call last):
+  File "/Users/blackbody/PycharmProjects/alx-backend-python/messaging_app/.venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py", line 87, in __call__
+    return JsonResponse("Access denied: Unauthenticated request.", status=429)
+  File "/Users/blackbody/PycharmProjects/alx-backend-python/messaging_app/.venv/lib/python3.13/site-packages/django/http/response.py", line 744, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2025-07-25 15:21:15.440602 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:21:44.184462 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Too Many Requests: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:21:56.268947 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Unauthorized: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:22:40.212857 - User: Anonymous - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Unauthorized: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+2025-07-25 15:22:50.400566 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+Forbidden: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
+/Users/blackbody/PycharmProjects/alx-backend-python/Django-Middleware-0x03/chats/middleware.py changed, reloading.
+2025-07-25 15:23:22.917375 - User: Black Body - blackthebody@outlook.com - Path: /api/conversations/beefa80a-c444-471e-bf85-086e2451204e/
