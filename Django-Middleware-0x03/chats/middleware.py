@@ -1,6 +1,7 @@
 from datetime import datetime
 import logging
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
+from django.core.cache import cache
 
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
@@ -33,3 +34,37 @@ class RestrictAccessByTimeMiddleware:
 
         response = self.get_response(request)
         return response
+
+
+class OffensiveLanguageMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        self.rate_limit = 5  # Number of allowed requests
+        self.time_window = 60  # Time window in seconds
+
+        if request.method == 'POST' and '/api/conversations/' in request.path and request.path.endswith('/messages/'):
+            ip = self.get_client_ip(request)
+            key = f'rate-limit-{ip}'
+
+            request_count = cache.get(key)
+            if request_count is None:
+                cache.set(key, 0, timeout=self.time_window)
+                request_count = 0
+
+            if request_count >= self.rate_limit:
+                return JsonResponse({'error': 'Message limit exceeded.'}, status=429)
+
+            cache.incr(key)
+
+        response = self.get_response(request)
+        return  response
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
