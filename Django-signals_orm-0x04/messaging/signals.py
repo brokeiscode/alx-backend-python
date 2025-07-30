@@ -12,8 +12,9 @@ def messagehistory_pre_save(sender, instance, **kwargs):
     if instance.id is None:
         pass
     try:
+        current = instance
         previous = Message.objects.get(id=instance.id)
-        if previous:
-            MessageHistory.objects.create(message=instance, old_content=previous.content)
+        if previous.content!= current.content:
+            MessageHistory.objects.create(message=instance, old_content=previous.content, edited_by=current.sender)
     except Message.DoesNotExist:
         return f"Instance does not exist"

@@ -20,7 +20,16 @@ class Message(models.Model):
 class MessageHistory(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messagehistory')
     old_content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now_add=True)
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-edited_at']
+        verbose_name = 'Message History'
+        db_table = 'messagehistories'
+
+    def __str__(self):
+        return f"OLD MESSAGE: {self.old_content}"
 
 
 class Notification(models.Model):
