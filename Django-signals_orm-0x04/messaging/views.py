@@ -5,6 +5,8 @@ from .models import Conversation, Message, MessageHistory, Notification
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
 from .permissions import IsParticipantOfConversation, IsMessageSenderOrIsParticipantOfConversation
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 @api_view(['GET'])
@@ -49,6 +51,10 @@ class MessageViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(conversation__id=conversation_id)
 
         return queryset
+
+    @method_decorator(cache_page(60))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         # explicitly written for checker, sender=request.user
