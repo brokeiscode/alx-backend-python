@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .managers import UnreadMessagesManager
 
 
 class Conversation(models.Model):
@@ -31,6 +32,9 @@ class Message(models.Model):
         ordering = ['-timestamp']
         verbose_name = 'Chat Message'
         db_table = 'messages'
+
+    objects = models.Manager()  # default
+    unread = UnreadMessagesManager()  # custom
 
     def __str__(self):
         return f"{self.sender.username}: {self.content[:50]}..."

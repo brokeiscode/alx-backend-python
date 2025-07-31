@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ConversationSerializer, MessageSerializer, MessageHistorySerializer, NotificationSerializer
 from .models import Conversation, Message, MessageHistory, Notification
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
 from .permissions import IsParticipantOfConversation, IsMessageSenderOrIsParticipantOfConversation
 
@@ -53,6 +53,14 @@ class MessageViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # explicitly written for checker, sender=request.user
         serializer.save(sender=self.request.user)
+
+    @action(detail=False, methods=['get'])
+    def unread_messages(self, request):
+        queryset = Message.unread.unread_for_user(request.user).only(
+            'id', 'conversation__id', 'conversation__name', 'sender', 'content', 'parent_message', 'timestamp'
+        )
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class MessageHistoryViewSet(viewsets.ModelViewSet):
