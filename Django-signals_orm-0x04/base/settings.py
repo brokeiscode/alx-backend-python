@@ -132,8 +132,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
     # Default filter backend for filtering/ordering
     'DEFAULT_FILTER_BACKENDS': [
