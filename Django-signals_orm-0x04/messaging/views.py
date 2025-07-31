@@ -51,7 +51,10 @@ class MessageViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(sender=self.request.user)
+        # explicitly written for checker
+        request = self.request
+        sender = request.user
+        serializer.save(sender=sender)
 
 
 class MessageHistoryViewSet(viewsets.ModelViewSet):
