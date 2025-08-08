@@ -5,13 +5,19 @@ FROM python:3.10
 WORKDIR /app
 
 # Copy the requirements file into the working directory.
-COPY requirements.txt .
+COPY requirements.txt /app/
 
 # Install the dependencies from requirements.txt.
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire Django project code into the container's working directory.
-COPY . .
+# Copy the entire Django project.
+COPY . /app/
+
+# Create staticfiles directory
+RUN mkdir -p /app/staticfiles
+
+# Create media directory
+RUN mkdir -p /app/media
 
 # Expose port 8000. This is the default port for Django's development server.
 EXPOSE 8000
