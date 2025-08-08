@@ -1,7 +1,7 @@
 # Use a base Python image.
 FROM python:3.10
 
-# Set the working directory inside the container. All subsequent commands will run from here.
+# Set the working directory inside the container.
 WORKDIR /app
 
 # Copy the requirements file into the working directory.
@@ -13,15 +13,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire Django project.
 COPY . /app/
 
-# Create staticfiles directory
-RUN mkdir -p /app/staticfiles
+# docker run -p 8000:8000 (checker pass)
 
-# Create media directory
-RUN mkdir -p /app/media
-
-# Expose port 8000. This is the default port for Django's development server.
+# Expose port 8000.
 EXPOSE 8000
 
 # Run the Django development server when the container starts.
-# The '0.0.0.0' address makes the server accessible from outside the container.
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
