@@ -208,3 +208,6 @@ __marimo__/
 .idea
 workspace.xml
 
+/messaging_app/.env.docker
+/messaging_app/.env.example
+
