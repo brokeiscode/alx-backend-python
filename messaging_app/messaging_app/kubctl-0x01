@@ -6,7 +6,7 @@
 # Monitors Resource Usage using kubectl top
 
 # scaling deployment to 3 replicas
-scale kubectl deployment/messaging-app --replicas=3
+scale kubectl deployment messaging-app --replicas=3
 
 # Waiting for pods to scale up
 sleep 30
