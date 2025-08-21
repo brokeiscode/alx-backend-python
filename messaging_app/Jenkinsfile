@@ -1,0 +1,84 @@
+pipeline {
+    agent any
+
+    tools {
+        python 'Python 3.10'
+    }
+
+    environment {
+        DB_ENGINE = 'mysql'
+        DB_NAME = 'test_db'
+        DB_USER = 'test_user'
+        DB_PASSWORD = 'test_password'
+        DB_HOST = 'localhost'
+        DB_PORT = '3306'
+        SECRET_KEY = 'test-secret-key-for-ci-cd-pipeline'
+        DJANGO_ALLOWED_HOSTS = 'localhost,127.0.0.1'
+        IMAGE_NAME = 'brokeiscode/messaging-app'
+        IMAGE_TAG = 'latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github-credentials'
+                    url: 'https://github.com/brokeiscode/alx-backend-python.git',
+            }
+        }
+
+        stage('Setup Python Environment') {
+            steps {
+                sh 'python -m venv venv'
+                sh 'source venv/bin/activate'
+                sh 'pip3 install --upgrade pip'
+                sh 'pip3 install -r messaging_app/requirements.txt'
+            }
+        }
+
+        stage('Django System Check') {
+            steps {
+                sh 'python manage.py test --verbosity=2'
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'test-reports/*.xml'
+                }
+            }
+        }
+
+        stage('Generate Test Report') {
+            steps {
+                sh 'python -m pytest --junitxml=test-reports/results.xml'
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'test-reports/results.xml'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS}",
+                                                  usernameVariable: 'DOCKER_USER',
+                                                  passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
